@@ -7,7 +7,7 @@ class Mangos::Book
   end
 
   def url
-    mangos.pathname_to_url(path).normalize
+    mangos.pathname_to_url(path)
   end
 
   def page_paths
@@ -15,7 +15,7 @@ class Mangos::Book
   end
 
   def page_urls
-    page_paths.map { |p| mangos.pathname_to_url(p).normalize }
+    page_paths.map { |p| mangos.pathname_to_url(p) }
   end
 
   def title
