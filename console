@@ -4,7 +4,7 @@ $:.unshift "./lib"
 require 'mangos'
 
 #$m = Mangos::Mangos.new(Pathname.new("/Users/bloopletech/manga/"), Addressable::URI.parse("http://localhost/manga/"))
-$m = Mangos::Mangos.new(Pathname.new("/Volumes/Mugi/Manga/mangar-data/public/system/books"), Addressable::URI.parse("/Mugi/Manga/mangar-data/public/system/books/"))
+#$m = Mangos::Mangos.new(Pathname.new("/Volumes/Mugi/Manga/mangar-data/public/system/books"), Addressable::URI.parse("/Mugi/Manga/mangar-data/public/system/books/"))
 #$m = Mangos::Mangos.new(Pathname.new("/Volumes/Mugi/manga"), Addressable::URI.parse("http://localhost:8081/Mugi/manga/"))
 
 require 'irb'

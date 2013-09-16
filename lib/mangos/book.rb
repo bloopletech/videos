@@ -24,7 +24,7 @@ class Mangos::Book
 
   def self.from_hash(mangos, data)
     book = Mangos::Book.new(mangos)
-    book.path = mangos.url_to_pathname(Addressable::URI.parse(data["path"]))
+    book.path = mangos.url_to_pathname(Addressable::URI.parse(data["url"]))
     book
   end
 

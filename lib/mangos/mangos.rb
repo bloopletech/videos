@@ -20,7 +20,9 @@ class Mangos::Mangos
   end
 
   def url_to_pathname(url)
-    root_url_path + url.route_from(Addressable::URI.parse("/"))
+    path = Addressable::URI.unencode_component(url.normalized_path)
+    path.gsub!(/^\//, "") #Make relative, if we allow mounting at a different root URL this will need to remove the root instead of just '/'
+    root_url_path + path
   end
 
   def self.gem_path

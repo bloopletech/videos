@@ -8,6 +8,7 @@ class Mangos::Mangos
   end
 
   def update
+    Mangos::Mangos.update_app(mangos_path)
     Mangos::Update.new(self)
   end
 
@@ -24,6 +25,11 @@ class Mangos::Mangos
     }
     save_json(mangos_path + "config.json", config)
 
+    update_app(mangos_path)
+  end
+
+  #TODO: Move to instance method
+  def self.update_app(mangos_path)
     FileUtils.cp_r(gem_path + "app/.", mangos_path)
     FileUtils.chmod_R(0755, mangos_path)
   end
