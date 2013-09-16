@@ -8,6 +8,7 @@ require "json"
 require "addressable/uri"
 require "haml"
 require "naturally"
+require "rmagick"
 
 module Mangos
 end

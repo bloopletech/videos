@@ -12,7 +12,9 @@ $(function() {
       var item = $("<li>");
       var link = $("<a>");
       link.attr("href", data[i].page_urls[0]);
-      link.text(data[i].title);
+      var img = $("<img>");
+      img.attr("src", data[i].thumbnail_url);
+      link.append(img);
       item.append(link);
       $("#items").append(item);
     }

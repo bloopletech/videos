@@ -40,6 +40,7 @@ class Mangos::Update
     puts "creating: #{directory}"
     book = Mangos::Book.new(mangos)
     book.path = directory
+    book.generate_thumbnail
     books << book
   end
 
