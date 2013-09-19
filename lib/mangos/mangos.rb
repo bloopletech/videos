@@ -1,10 +1,9 @@
 class Mangos::Mangos
-  attr_reader :root_url_path
   attr_reader :root_path
   attr_reader :mangos_path
 
   def pathname_to_url(path)
-    (Addressable::URI.parse("/") + path.relative_path_from(root_url_path).to_s).normalize
+    URI.escape(path.relative_path_from(mangos_path).to_s)
   end
 
   def url_to_pathname(url)

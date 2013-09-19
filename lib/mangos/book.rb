@@ -6,12 +6,16 @@ class Mangos::Book
     @mangos = mangos
   end
 
+  def path_hash
+    Digest::SHA256.hexdigest(path.to_s)
+  end
+
   def url
     mangos.pathname_to_url(path)
   end
 
   def page_paths
-    path.children.reject { |p| p.basename.to_s[0..0] == '.' }.sort_by { |p| Naturally.normalize(p.basename) }
+    path.children.select { |p| p.image? && !p.hidden? }.sort_by { |p| Naturally.normalize(p.basename) }
   end
 
   def page_urls
@@ -23,7 +27,7 @@ class Mangos::Book
   end
 
   def thumbnail_path
-    mangos.mangos_path + "img/thumbnails/" + "#{path.basename}.jpg"
+    mangos.mangos_path + "img/thumbnails/" + "#{path_hash}.jpg"
   end
 
   def thumbnail_url
@@ -53,6 +57,8 @@ class Mangos::Book
     img.excerpt!(0, 0, p_width, p_height)
 
     img.write(thumbnail_path)
+  rescue Exception => e
+    puts "There was an error generating thumbnail: #{e.inspect}"
   end
 
   def self.from_hash(mangos, data)

@@ -7,15 +7,12 @@ command = ARGV.first || "sync"
 
 case command
 when "install"
-  root_url_path = Pathname.new(ask("What is the filesystem path that corresponds to the root URL (i.e. the `DocumentRoot`, or the `root` location variable) [absolute path only] "))
-  puts "The following paths _must_ be under the root filesystem path (#{root_url_path})."
-  root_path = Pathname.new(ask("What directory is your manga stored in? [absolute path only] ") { |q| q.default = (root_url_path + "Manga/").to_s })
-  mangos_path = Pathname.new(ask("What directory should mangos install to? [absolute path only] ") { |q| q.default = (root_path + "mangos/").to_s })
-
-  Mangos::Mangos.install(root_url_path, root_path, mangos_path)
+  root_path = Pathname.new(ask("What directory is your manga stored in? ")).realpath
+  mangos = Mangos::Mangos.new(root_path)
+  mangos.install
 when "update"
-  mangos_path = Pathname.new(ARGV[1] || "./mangos/").realpath
-  mangos = Mangos::Mangos.new(mangos_path)
+  root_path = Pathname.new(ARGV[1] || ".").realpath
+  mangos = Mangos::Mangos.new(root_path)
   mangos.update
 else
   puts "Unknown command #{command.inspect}"

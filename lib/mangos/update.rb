@@ -5,7 +5,7 @@ class Mangos::Update
   def initialize(mangos)
     @mangos = mangos
 
-    @directories = mangos.root_path.children.reject { |p| p.basename.to_s[0..0] == '.' || p == mangos.mangos_path }
+    @directories = mangos.root_path.descendant_directories.reject { |p| p.basename.to_s[0..0] == '.' }
     load_data
     process
     save_data
