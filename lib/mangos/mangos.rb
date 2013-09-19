@@ -3,7 +3,7 @@ class Mangos::Mangos
   attr_reader :mangos_path
 
   def pathname_to_url(path)
-    URI.escape(path.relative_path_from(mangos_path).to_s)
+    URI.escape(path.to_s)
   end
 
   def url_to_pathname(url)
