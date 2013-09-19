@@ -11,7 +11,7 @@ class Mangos::Book
   end
 
   def url
-    mangos.pathname_to_url(path.relative_path_from(mangos.mangos_path))
+    mangos.pathname_to_url(path, mangos.mangos_path)
   end
 
   def page_paths
@@ -19,7 +19,7 @@ class Mangos::Book
   end
 
   def page_urls
-    page_paths.map { |p| mangos.pathname_to_url(p.relative_path_from(path)) }
+    page_paths.map { |p| mangos.pathname_to_url(p, path) }
   end
 
   def title
@@ -31,7 +31,7 @@ class Mangos::Book
   end
 
   def thumbnail_url
-    mangos.pathname_to_url(thumbnail_path.relative_path_from(mangos.mangos_path))
+    mangos.pathname_to_url(thumbnail_path, mangos.mangos_path)
   end
 
   PREVIEW_WIDTH = 211
