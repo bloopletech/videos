@@ -1,4 +1,4 @@
-var data = [];
+var lc = new Lawnchair({ record: "books", name: "book" });
 
 function scrollDistanceFromBottom() {
   return pageHeight() - (window.pageYOffset + self.innerHeight);
@@ -9,37 +9,46 @@ function pageHeight() {
 }
 
 var router = function() {
-  var current_controller = null;
-  var current_pathname = null;
+  var _this = this;
 
-  this.go = function(url) {
-    history.pushState(null, null, url);
-    $(window).trigger("popstate");
+  var current_controller = null;
+  var current_route = null;
+
+  this.location_route = function(val) {
+    if(arguments.length == 1) location.hash = "#" + val + "!" + this.location_hash();
+    else return location.hash.substr(1).split("!")[0];
   }
 
-  $(window).bind("popstate", function() {
-    if(location.pathname == current_pathname) return;
-    current_pathname = location.pathname;
+  this.location_hash = function(val) {
+    if(arguments.length == 1) location.hash = "#" + this.location_route() + "!" + val;
+    else return location.hash.substr(1).split("!")[1];
+  }
 
-    var parts = location.pathname.split("!");
-    if(parts.length == 1) return;
-    var controller_name = parts[1];
-    var rest = parts.slice(2);
-    console.log("controller_name ", controller_name);
-    console.log("rest ", rest);
+  this.go = function(url) {
+    location.hash = url;
+  }
 
-    var controller = new controllers[controller_name](rest);
+  this.init = function() {
+    $(window).bind("hashchange", function() {
+      var route = _this.location_route();
+      if(route == "") return;
 
-    if(current_controller) current_controller.destroy();
-    current_controller = controller;
-    current_controller.run();
-  });
+      if(route == current_route) return;
+      current_route = route;
 
-  $("body").on("click", "a[data-routable]", function(event) {
-    console.log("href ", this.href);
-    window.router.go(this.href);
-    event.preventDefault();
-  });
+      var parts = route.split("/");
+      var controller_name = parts[0];
+      var rest = parts.slice(1);
+      console.log("controller_name ", controller_name);
+      console.log("rest ", rest);
+
+      var controller = new controllers[controller_name](rest);
+
+      if(current_controller) current_controller.destroy();
+      current_controller = controller;
+      current_controller.run();
+    }).trigger("hashchange");
+  }
 };
 
 var controllers = {};
@@ -50,17 +59,18 @@ controllers.index = function() {
   this.run = function() {
     console.log("starting index");
 
-    for(var i = 0; i < 100; i++) {
-      var item = $("<li>");
-      var link = $("<a>");
-      link.attr("href", "!show!" + i);
-      link.attr("data-routable", "true");
-      var img = $("<img>");
-      img.attr("src", window.data[i].thumbnail_url);
-      link.append(img);
-      item.append(link);
-      $("#items").append(item);
-    }
+    lc.where("true").desc("published_on", function(books) {
+      $.each(books, function(_, book) {
+        var item = $("<li>");
+        var link = $("<a>");
+        link.attr("href", "#show/" + book.key);
+        var img = $("<img>");
+        img.attr("src", book.thumbnail_url);
+        link.append(img);
+        item.append(link);
+        $("#items").append(item);
+      });
+    });
 
     $("#view-index").show();
   }
@@ -71,10 +81,11 @@ controllers.index = function() {
   }
 }
 
-controllers.show = function(index) {
+controllers.show = function(key) {
   var _this = this;
 
-  var book = window.data[parseInt(index)];
+  //var book = lc.get(key);
+  var book = lc.store[key]; //HACK!
   console.log(book);
 
   this.run = function() {
@@ -82,7 +93,7 @@ controllers.show = function(index) {
 
     function get_index()
     {
-      var index = parseInt(location.hash.substr(1)); 
+      var index = parseInt(router.location_hash()); 
       if(isNaN(index)) index = 0;
       return index;
     }
@@ -93,7 +104,7 @@ controllers.show = function(index) {
       index += 1;
 
       if(index >= book.page_urls.length) index = book.page_urls.length - 1;
-      location.hash = "#" + index;
+      router.location_hash(index);
     }
 
     $(window).bind('hashchange.show', function()
@@ -126,29 +137,32 @@ controllers.show = function(index) {
       }
     });
 
-    $("#view-show").click(go_next_page);
+    $("#view-show").bind("click", go_next_page);
     $("#view-show").show();
   }
 
   this.destroy = function() {
     console.log("destroying show");
     $(window).unbind(".show");
-    $("view-show").hide();
+    $("#view-show").unbind("click");
+    $("#view-show").hide();
   }
 }
 
 
 
 $(function() {
-  window.router = new router();
-
   $.getJSON("data.json").done(function(data) {
-    window.data = data;
-
-    if(window.data.length == 0) {
+    if(data.length == 0) {
       alert("No data.json, or data invalid.");
     }
 
-    router.go("!index");
+    for(var i = 0; i < data.length; i++) {
+      lc.save(data[i]);
+    }
+
+    window.router = new router();
+    router.init();
+    router.go("index");
   });
 });
