@@ -1,0 +1,11 @@
+#view-show {
+  display: none;
+  background-color: #333333;
+  min-height: 100%;
+}
+
+#view-show img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto 0 auto;
+}
