@@ -9,3 +9,11 @@
   max-width: 100%;
   margin: 0 auto 0 auto;
 }
+
+#view-show #return-to-index {
+  padding: 5px;
+}
+
+#view-show #return-to-index a {
+  color: #ffffff;
+}

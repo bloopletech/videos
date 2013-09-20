@@ -11,6 +11,7 @@ controllers.index = function() {
   this.render = function() {
     console.log("rendering");
     console.log(books);
+    $("#items").empty();
     _.each(books, function(book) {
       var item = $("<li>");
       var link = $("<a>");

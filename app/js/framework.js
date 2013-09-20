@@ -49,6 +49,7 @@ var router = function() {
       console.log("hash ", utils.location_hash());
 
       if(route != current_route) {
+        console.log("changing route from ", current_route, " to ", route);
         current_route = route;
 
         var controller = new controllers[controller_name](rest);
