@@ -7,7 +7,7 @@ utils.location_route = function(val) {
 
 utils.location_hash = function(val) {
   if(arguments.length == 1) location.hash = "#" + utils.location_route() + "!" + val;
-  else return location.hash.substr(1).split("!").slice(1);
+  else return location.hash.substr(1).split("!").slice(1).join("!");
 };
 
 utils.page = function(index) {
@@ -28,6 +28,10 @@ utils.scrollDistanceFromBottom = function() {
 
 utils.pageHeight = function() {
   return $(".current-view").height();
+}
+
+utils.nearBottomOfPage = function() {
+  return utils.scrollDistanceFromBottom() < 1000;
 }
 
 var router = function() {
