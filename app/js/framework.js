@@ -31,7 +31,7 @@ utils.pageHeight = function() {
 }
 
 utils.nearBottomOfPage = function() {
-  return utils.scrollDistanceFromBottom() < 1000;
+  return utils.scrollDistanceFromBottom() < 250;
 }
 
 var router = function() {
