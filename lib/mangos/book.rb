@@ -72,11 +72,11 @@ class Mangos::Book
   def to_hash
     {
       "url" => url,
-      "page_urls" => page_urls,
+      "pageUrls" => page_urls,
       "pages" => page_urls.length,
       "title" => title,
-      "published_on" => path.mtime.to_i,
-      "thumbnail_url" => thumbnail_url,
+      "publishedOn" => path.mtime.to_i,
+      "thumbnailUrl" => thumbnail_url,
       "key" => path_hash
     }
   end

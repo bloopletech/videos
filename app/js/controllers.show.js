@@ -5,17 +5,12 @@ controllers.show = function(key) {
     return book.key == key;
   });
 
-  function page_url(index) {
-    return book.url + "/" + book.page_urls[index - 1];
+  function pageUrl(index) {
+    return book.url + "/" + book.pageUrls[index - 1];
   }
 
-  function go_next_page()
-  {
-    var index = utils.page();
-    index += 1;
-
-    if(index > book.page_urls.length) index = book.page_urls.length;
-    utils.page(index);
+  function goNextPage() {
+    utils.page(utils.page() + 1, book.pageUrls.length);
   }
 
   this.init = function() {
@@ -26,7 +21,7 @@ controllers.show = function(key) {
       if((event.keyCode == 32 || event.keyCode == 13) && utils.scrollDistanceFromBottom() <= 0)
       {
         event.preventDefault();
-        go_next_page();      
+        goNextPage();
       }
       else if(event.keyCode == 8)
       {
@@ -35,7 +30,7 @@ controllers.show = function(key) {
       }
     });
 
-    $("#view-show").bind("click", go_next_page);
+    $("#view-show").bind("click", goNextPage);
     $("#view-show").show().addClass("current-view");
   }
 
@@ -44,12 +39,12 @@ controllers.show = function(key) {
 
     $("#image").attr('src', "img/blank.png");    
     window.scrollTo(0, 0);
-    $("#image").attr('src', page_url(index));
+    $("#image").attr('src', pageUrl(index));
 
-    if((index + 1) <= book.page_urls.length)
+    if((index + 1) <= book.pageUrls.length)
     {
       preload = new Image();
-      preload.src = page_url(index + 1);
+      preload.src = pageUrl(index + 1);
     }
   }
 
