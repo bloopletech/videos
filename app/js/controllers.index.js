@@ -1,5 +1,16 @@
-controllers.index = function(search) {
+controllers.index = function(search, sort) {
   var _this = this;
+
+  function sortFor(type) {
+    if(!type) type = "publishedOn";
+
+    if(type == "publishedOn") return function(book) {
+      return book.publishedOn;
+    };
+    if(type == "pages") return function(book) {
+      return book.pageUrls.length;
+    };
+  }
 
   var books = store;
   if(search && search != "") {
@@ -8,12 +19,21 @@ controllers.index = function(search) {
       return book.title.match(regex);
     });
   }
-  books = _.sortBy(books, "publishedOn").reverse();
+  console.log(sortFor(sort));
+  books = _.sortBy(books, sortFor(sort)).reverse();
 
   var scrollLock = false;
   var lastPage = false;
   var scrollTimer = null;
-  var perPage = 100;
+
+  function perPageFromWindow() {
+    var windowWidth = $(window).width();
+    if(windowWidth < 1000) return 15;
+    else if(windowWidth > 1000 && windowWidth < 1500) return 20;
+    else if(windowWidth > 1500) return 100;
+  }
+
+  var perPage = perPageFromWindow();
 
   function checkScroll() {
     if(!lastPage && utils.nearBottomOfPage()) utils.page(utils.page() + 1);
@@ -25,7 +45,7 @@ controllers.index = function(search) {
     $("#search").bind("keydown", function(event) {
       if(event.keyCode == 13) {
         event.preventDefault();
-        utils.locationRoute("index/" + $("#search").val());
+        utils.locationParams([$("#search").val(), sort]);
       }
     });
 
@@ -33,13 +53,13 @@ controllers.index = function(search) {
       $("#search").val("");
     });
 
+    $("a.sort").bind("click", function(event) {
+      event.preventDefault();
+      utils.locationParams([search, $(this).data("sort")]);
+    });
+
     $("#view-index").show().addClass("current-view");
     scrollTimer = setInterval(checkScroll, 250);
-  }
-
-  function paginate(books) {
-    var page = utils.page();
-    return books.slice((page - 1) * perPage, page * perPage);
   }
 
   function addBooks(books) {
@@ -61,7 +81,7 @@ controllers.index = function(search) {
 
   this.render = function() {
     console.log("rendering");
-    var booksPage = paginate(books);
+    var booksPage = utils.paginate(books, perPage);
     addBooks(booksPage);
     if(booksPage.length < perPage) lastPage = true;
   }
@@ -71,6 +91,7 @@ controllers.index = function(search) {
     clearInterval(scrollTimer);
     $("#search").unbind("keydown");
     $("#clear-search").unbind("click");
+    $("a.sort").unbind("click");
     $("#items").empty();
     $("#view-index").hide().removeClass("current-view");
   }

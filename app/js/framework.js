@@ -5,6 +5,16 @@ utils.locationRoute = function(val) {
   else return location.hash.substr(1).split("!")[0];
 };
 
+utils.locationController = function(val) {
+  if(arguments.length == 1) location.hash = "#" + [val].concat(utils.locationParams()).join("/") + "!" + utils.locationHash();
+  else return utils.locationRoute().split("/")[0];
+};
+
+utils.locationParams = function(array) {
+  if(arguments.length == 1) location.hash = "#" + [utils.locationController()].concat(array).join("/") + "!" + utils.locationHash();
+  return utils.locationRoute().split("/").slice(1);
+};
+
 utils.locationHash = function(val) {
   if(arguments.length == 1) location.hash = "#" + utils.locationRoute() + "!" + val;
   else return location.hash.substr(1).split("!").slice(1).join("!");
@@ -38,6 +48,11 @@ utils.nearBottomOfPage = function() {
   return utils.scrollDistanceFromBottom() < 250;
 }
 
+utils.paginate = function(array, perPage) {
+  var page = utils.page();
+  return array.slice((page - 1) * perPage, page * perPage);
+}
+
 var router = function() {
   var _this = this;
 
@@ -49,26 +64,18 @@ var router = function() {
       var route = utils.locationRoute();
       if(route == "") return;
 
-      var parts = route.split("/");
-      var controllerName = parts[0];
-      var rest = parts.slice(1);
-      console.log("controllerName ", controllerName);
-      console.log("rest ", rest);
-      console.log("hash ", utils.locationHash());
-
       if(route != currentRoute) {
         console.log("changing route from ", currentRoute, " to ", route);
         currentRoute = route;
-
-        var controller = new controllers[controllerName](rest);
 
         if(currentController) {
           currentController.destroy();
           delete currentController;
         }
-        currentController = controller;
+
+        var controllerFunction = controllers[utils.locationController()];
+        currentController = new (controllerFunction.bind.apply(controllerFunction, [null].concat(utils.locationParams())));
         currentController.init();
-        //open a new tab
       }
       
       currentController.render();
