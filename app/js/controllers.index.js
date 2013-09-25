@@ -1,4 +1,4 @@
-controllers.index = function(search, sort) {
+controllers.index = function(search, sort, sortDirection) {
   var _this = this;
 
   function sortFor(type) {
@@ -19,8 +19,10 @@ controllers.index = function(search, sort) {
       return book.title.match(regex);
     });
   }
-  console.log(sortFor(sort));
-  books = _.sortBy(books, sortFor(sort)).reverse();
+  books = _.sortBy(books, sortFor(sort));
+
+  if(!sortDirection) sortDirection = "desc";
+  if(sortDirection == "desc") books = books.reverse();
 
   var scrollLock = false;
   var lastPage = false;
@@ -45,7 +47,7 @@ controllers.index = function(search, sort) {
     $("#search").bind("keydown", function(event) {
       if(event.keyCode == 13) {
         event.preventDefault();
-        utils.locationParams([$("#search").val(), sort]);
+        utils.locationParams([$("#search").val(), sort, sortDirection]);
       }
     });
 
@@ -55,7 +57,12 @@ controllers.index = function(search, sort) {
 
     $("a.sort").bind("click", function(event) {
       event.preventDefault();
-      utils.locationParams([search, $(this).data("sort")]);
+      utils.locationParams([search, $(this).data("sort"), sortDirection]);
+    });
+
+    $("a.sort-direction").bind("click", function(event) {
+      event.preventDefault();
+      utils.locationParams([search, sort, $(this).data("sort-direction")]);
     });
 
     $("#view-index").show().addClass("current-view");
@@ -92,6 +99,7 @@ controllers.index = function(search, sort) {
     $("#search").unbind("keydown");
     $("#clear-search").unbind("click");
     $("a.sort").unbind("click");
+    $("a.sort-direction").unbind("click");
     $("#items").empty();
     $("#view-index").hide().removeClass("current-view");
   }
