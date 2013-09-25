@@ -1,7 +1,14 @@
-controllers.index = function() {
+controllers.index = function(search) {
   var _this = this;
 
-  var books = _.sortBy(store, "publishedOn").reverse();
+  var books = store;
+  if(search && search != "") {
+    regex = RegExp(search, "i");
+    books = _.filter(books, function(book) {
+      return book.title.match(regex);
+    });
+  }
+  books = _.sortBy(books, "publishedOn").reverse();
 
   var scrollLock = false;
   var lastPage = false;
@@ -14,6 +21,18 @@ controllers.index = function() {
 
   this.init = function() {
     console.log("starting index");
+
+    $("#search").bind("keydown", function(event) {
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        utils.locationRoute("index/" + $("#search").val());
+      }
+    });
+
+    $("#clear-search").bind("click", function() {
+      $("#search").val("");
+    });
+
     $("#view-index").show().addClass("current-view");
     scrollTimer = setInterval(checkScroll, 250);
   }
@@ -50,6 +69,8 @@ controllers.index = function() {
   this.destroy = function() {
     console.log("destroying index");
     clearInterval(scrollTimer);
+    $("#search").unbind("keydown");
+    $("#clear-search").unbind("click");
     $("#items").empty();
     $("#view-index").hide().removeClass("current-view");
   }
