@@ -21,8 +21,7 @@
 #items li { margin: 0 2px 2px 0; float: left; list-style-type: none; position: relative; overflow: hidden; width: 211px; height: 332px; }
 #items li .emblems, #items li .actions { display: block; position: absolute; top: 0; right: 0; padding: 1px; line-height: 0; background-color: #ffffff; }
 #items li .actions { display: none; right: auto; left: 0; width: 32px; }
-#items li .wrapper { position: relative; }
-#items li .wrapper > a { color: #000000; text-decoration: none; }
+#items li > a { color: #000000; text-decoration: none; }
 #items li .info-wrapper { position: absolute; bottom: 0; background-color: #ffffff; }
 #items li .info { padding: 2px; }
 #items li .info img { vertical-align: middle; }
@@ -34,7 +33,6 @@
 #items li.no_results { color: #ffffff; width: auto; float: none; text-align: center; padding: 40px 0; }
 /*#items .tags form { display: none; }*/
 
-#items li:hover .wrapper { position: absolute; top: 0; left: 0; background-color: #ffffff; }
 #items li:hover .actions { display: block; }
 
 #item .title_image { float: left; margin-right: 15px; }
