@@ -4,14 +4,13 @@ require "mangos"
 require "highline/import"
 
 command = ARGV.first || "sync"
+root_path = Pathname.new(ARGV[1] || ".").realpath
 
 case command
 when "install"
-  root_path = Pathname.new(ask("What directory is your manga stored in? ")).realpath
   mangos = Mangos::Mangos.new(root_path)
   mangos.install
 when "update"
-  root_path = Pathname.new(ARGV[1] || ".").realpath
   mangos = Mangos::Mangos.new(root_path)
   mangos.update
 else
