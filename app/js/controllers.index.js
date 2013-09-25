@@ -31,7 +31,14 @@ controllers.index = function() {
       var img = $("<img>");
       img.attr("src", book.thumbnailUrl);
       link.append(img);
-      item.append(link);
+
+      var wrapper = $("<div>");
+      wrapper.addClass("wrapper");
+      wrapper.append(link);
+      wrapper.append('<div class="info-wrapper"><div class="info"><div class="title">' + book.title + '</div>' +
+        '<img src="img/icons/page_white.png" title="Pages"> ' + book.pageUrls.length + '</div></div>');
+
+      item.append(wrapper);
       $("#items").append(item);
     });
   }

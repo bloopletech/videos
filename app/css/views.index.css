@@ -18,7 +18,7 @@
 
 .title {  }
 #items { padding: 2px 0 0 2px; }
-#items li { margin: 0 2px 2px 0; float: left; list-style-type: none; position: relative; overflow: hidden; }
+#items li { margin: 0 2px 2px 0; float: left; list-style-type: none; position: relative; overflow: hidden; width: 211px; height: 332px; }
 #items li .emblems, #items li .actions { display: block; position: absolute; top: 0; right: 0; padding: 1px; line-height: 0; background-color: #ffffff; }
 #items li .actions { display: none; right: auto; left: 0; width: 32px; }
 #items li .wrapper { position: relative; }
@@ -26,6 +26,7 @@
 #items li .info-wrapper { position: absolute; bottom: 0; background-color: #ffffff; }
 #items li .info { padding: 2px; }
 #items li .info img { vertical-align: middle; }
+#items li .info .title { padding-bottom: 3px; }
 #items .tag_list { min-height: 1.2em; }
 #items .tag_list:hover { background-color: #ffffaa; }
 #items input { width: 100%; }
