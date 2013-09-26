@@ -22,7 +22,7 @@ utils.locationHash = function(val) {
 
 utils.page = function(index, max) {
   if(arguments.length == 2) {
-    if(isNaN(index)) index = 1;
+    if(isNaN(index) || index < 1) index = 1;
     if(index > max) index = max;
     utils.locationHash(index);
   }
@@ -31,7 +31,7 @@ utils.page = function(index, max) {
   }
   else {
     var index = parseInt(utils.locationHash());
-    if(isNaN(index)) index = 1;
+    if(isNaN(index) || index < 1) index = 1;
     return index;
   }
 }
@@ -46,6 +46,10 @@ utils.pageHeight = function() {
 
 utils.nearBottomOfPage = function() {
   return utils.scrollDistanceFromBottom() < 250;
+}
+
+utils.pages = function(array, perPage) {
+  return Math.ceil(array.length / (perPage + 0.0));
 }
 
 utils.paginate = function(array, perPage) {

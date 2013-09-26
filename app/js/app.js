@@ -1,6 +1,8 @@
 var store = null;
 
 $(function() {
+  $(document).on("dragstart", "img", false);
+
   $.getJSON("data.json").done(function(data) {
     if(data.length == 0) alert("No data.json, or data invalid.");
 

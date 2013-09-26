@@ -24,10 +24,6 @@ controllers.index = function(search, sort, sortDirection) {
   if(!sortDirection) sortDirection = "desc";
   if(sortDirection == "desc") books = books.reverse();
 
-  var scrollLock = false;
-  var lastPage = false;
-  var scrollTimer = null;
-
   function perPageFromWindow() {
     var windowWidth = $(window).width();
     if(windowWidth < 1000) return 15;
@@ -36,10 +32,7 @@ controllers.index = function(search, sort, sortDirection) {
   }
 
   var perPage = perPageFromWindow();
-
-  function checkScroll() {
-    if(!lastPage && utils.nearBottomOfPage()) utils.page(utils.page() + 1);
-  }
+  var pages = utils.pages(books, perPage);
 
   this.init = function() {
     console.log("starting index");
@@ -65,11 +58,20 @@ controllers.index = function(search, sort, sortDirection) {
       utils.locationParams([search, sort, $(this).data("sort-direction")]);
     });
 
+    $("#view-index").hammer().on("swipeleft", function(event) {
+      event.preventDefault();
+      utils.page(utils.page() + 1, pages);
+    }).on("swiperight", function(event) {
+      event.preventDefault();
+      utils.page(utils.page() - 1, pages);
+    });
+
     $("#view-index").show().addClass("current-view");
-    scrollTimer = setInterval(checkScroll, 250);
   }
 
   function addBooks(books) {
+    $("#items").empty();
+
     _.each(books, function(book) {
       var item = $("<li>");
       var link = $("<a>");
@@ -90,17 +92,16 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("rendering");
     var booksPage = utils.paginate(books, perPage);
     addBooks(booksPage);
-    if(booksPage.length < perPage) lastPage = true;
   }
 
   this.destroy = function() {
     console.log("destroying index");
-    clearInterval(scrollTimer);
     $("#search").unbind("keydown");
     $("#clear-search").unbind("click");
     $("a.sort").unbind("click");
     $("a.sort-direction").unbind("click");
     $("#items").empty();
+    $("#view-index").hammer().off("swiperight").off("swipeleft");
     $("#view-index").hide().removeClass("current-view");
   }
 }
