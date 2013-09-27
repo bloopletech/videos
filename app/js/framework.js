@@ -1,36 +1,36 @@
 var utils = {};
 
-utils.locationRoute = function(val) {
-  if(arguments.length == 1) location.hash = "#" + val + "!" + utils.locationHash();
-  else return location.hash.substr(1).split("!")[0];
-};
-
-utils.locationController = function(val) {
-  if(arguments.length == 1) location.hash = "#" + [val].concat(utils.locationParams()).join("/") + "!" + utils.locationHash();
-  else return utils.locationRoute().split("/")[0];
-};
-
-utils.locationParams = function(array) {
-  if(arguments.length == 1) location.hash = "#" + [utils.locationController()].concat(array).join("/") + "!" + utils.locationHash();
-  return utils.locationRoute().split("/").slice(1);
-};
-
-utils.locationHash = function(val) {
-  if(arguments.length == 1) location.hash = "#" + utils.locationRoute() + "!" + val;
-  else return location.hash.substr(1).split("!").slice(1).join("!");
-};
+utils.location = function(changes) {
+  if(arguments.length == 1) {
+    var output = _.extend(utils.location(), changes);
+    location.hash = "#" + [output.controller].concat(output.params).join("/") + "!" + output.hash;
+  }
+  else {
+    var route_hash = location.hash.substr(1).split("!");
+    var route = route_hash[0];
+    var controller = route.split("/")[0];
+    var params = route.split("/").slice(1);
+    var hash = route_hash.slice(1).join("!");
+    return {
+      route: route, //Don't set this
+      controller: controller,
+      params: params,
+      hash: hash
+    };
+  }
+}
 
 utils.page = function(index, max) {
   if(arguments.length == 2) {
     if(isNaN(index) || index < 1) index = 1;
     if(index > max) index = max;
-    utils.locationHash(index);
+    utils.location({ hash: index });
   }
   else if(arguments.length == 1) {
-    utils.locationHash(index);
+    utils.location({ hash: index });
   }
   else {
-    var index = parseInt(utils.locationHash());
+    var index = parseInt(utils.location().hash);
     if(isNaN(index) || index < 1) index = 1;
     return index;
   }
@@ -65,7 +65,7 @@ var router = function() {
 
   this.init = function() {
     $(window).bind("hashchange", function() {
-      var route = utils.locationRoute();
+      var route = utils.location().route;
       if(route == "") return;
 
       if(route != currentRoute) {
@@ -77,8 +77,8 @@ var router = function() {
           delete currentController;
         }
 
-        var controllerFunction = controllers[utils.locationController()];
-        currentController = new (controllerFunction.bind.apply(controllerFunction, [null].concat(utils.locationParams())));
+        var controllerFunction = controllers[utils.location().controller];
+        currentController = new (controllerFunction.bind.apply(controllerFunction, [null].concat(utils.location().params)));
         currentController.init();
       }
       

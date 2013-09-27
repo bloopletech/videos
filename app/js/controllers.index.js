@@ -28,7 +28,7 @@ controllers.index = function(search, sort, sortDirection) {
     var windowWidth = $(window).width();
     if(windowWidth < 1000) return 15;
     else if(windowWidth > 1000 && windowWidth < 1500) return 20;
-    else if(windowWidth > 1500) return 100;
+    else if(windowWidth > 1500) return 25;
   }
 
   var perPage = perPageFromWindow();
@@ -40,7 +40,7 @@ controllers.index = function(search, sort, sortDirection) {
     $("#search").bind("keydown", function(event) {
       if(event.keyCode == 13) {
         event.preventDefault();
-        utils.locationParams([$("#search").val(), sort, sortDirection]);
+        utils.location({ params: [$("#search").val(), sort, sortDirection], hash: "1" });
       }
     });
 
@@ -50,12 +50,12 @@ controllers.index = function(search, sort, sortDirection) {
 
     $("a.sort").bind("click", function(event) {
       event.preventDefault();
-      utils.locationParams([search, $(this).data("sort"), sortDirection]);
+      utils.location({ params: [search, $(this).data("sort"), sortDirection], hash: "1" });
     });
 
     $("a.sort-direction").bind("click", function(event) {
       event.preventDefault();
-      utils.locationParams([search, sort, $(this).data("sort-direction")]);
+      utils.location({ params: [search, sort, $(this).data("sort-direction")], hash: "1" });
     });
 
     $("#view-index").hammer().on("swipeleft", function(event) {
