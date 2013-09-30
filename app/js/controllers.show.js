@@ -44,13 +44,12 @@ controllers.show = function(key) {
     $("#view-show").bind("click", goNextPage);
     $("#view-show").show().addClass("current-view");
 
-    setTimeout(preloadImages, 5000);
+    //setTimeout(preloadImages, 5000);
   }
 
   this.render = function() {
     var index = utils.page();
 
-    $("#image").attr('src', "img/blank.png");    
     window.scrollTo(0, 0);
     _(5).times(function() {
       $("#image").attr('src', pageUrl(index));
