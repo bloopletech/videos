@@ -9,6 +9,17 @@ controllers.show = function(key) {
     return book.url + "/" + book.pageUrls[index - 1];
   }
 
+  function preloadImage(index) {
+    var image = new Image();
+    image.src = pageUrl(index);
+  }
+
+  function preloadImages() {
+    for(var i = 1; i <= book.pageUrls.length; i++) {
+      preloadImage(i);
+    }
+  }
+
   function goNextPage() {
     utils.page(utils.page() + 1, book.pageUrls.length);
   }
@@ -32,6 +43,8 @@ controllers.show = function(key) {
 
     $("#view-show").bind("click", goNextPage);
     $("#view-show").show().addClass("current-view");
+
+    setTimeout(preloadImages, 1000);
   }
 
   this.render = function() {
@@ -41,10 +54,8 @@ controllers.show = function(key) {
     window.scrollTo(0, 0);
     $("#image").attr('src', pageUrl(index));
 
-    if((index + 1) <= book.pageUrls.length)
-    {
-      preload = new Image();
-      preload.src = pageUrl(index + 1);
+    if((index + 1) <= book.pageUrls.length) {
+      preloadImage(index + 1);
     }
   }
 
