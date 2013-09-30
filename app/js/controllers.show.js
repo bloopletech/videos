@@ -15,9 +15,9 @@ controllers.show = function(key) {
   }
 
   function preloadImages() {
-    for(var i = 1; i <= book.pageUrls.length; i++) {
-      preloadImage(i);
-    }
+    _(book.pageUrls.length).times(function(i) {
+      preloadImage(i + 1);
+    });
   }
 
   function goNextPage() {
@@ -44,7 +44,7 @@ controllers.show = function(key) {
     $("#view-show").bind("click", goNextPage);
     $("#view-show").show().addClass("current-view");
 
-    setTimeout(preloadImages, 1000);
+    setTimeout(preloadImages, 5000);
   }
 
   this.render = function() {
@@ -52,7 +52,9 @@ controllers.show = function(key) {
 
     $("#image").attr('src', "img/blank.png");    
     window.scrollTo(0, 0);
-    $("#image").attr('src', pageUrl(index));
+    _(5).times(function() {
+      $("#image").attr('src', pageUrl(index));
+    });
 
     if((index + 1) <= book.pageUrls.length) {
       preloadImage(index + 1);

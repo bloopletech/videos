@@ -58,12 +58,12 @@ controllers.index = function(search, sort, sortDirection) {
       utils.location({ params: [search, sort, $(this).data("sort-direction")], hash: "1" });
     });
 
-    $("#view-index").hammer().on("swipeleft", function(event) {
-      event.preventDefault();
-      utils.page(utils.page() + 1, pages);
-    }).on("swiperight", function(event) {
-      event.preventDefault();
-      utils.page(utils.page() - 1, pages);
+    $("#view-index").hammer().on("drag swipeleft swiperight", function(event) {
+      if(Hammer.utils.isVertical(event.gesture.direction)) return;
+      event.gesture.preventDefault();
+
+      if(event.type == 'swipeleft') utils.page(utils.page() + 1, pages);
+      else if(event.type == 'swiperight') utils.page(utils.page() - 1, pages);
     });
 
     $("#view-index").show().addClass("current-view");
@@ -101,7 +101,7 @@ controllers.index = function(search, sort, sortDirection) {
     $("a.sort").unbind("click");
     $("a.sort-direction").unbind("click");
     $("#items").empty();
-    $("#view-index").hammer().off("swiperight").off("swipeleft");
+    $("#view-index").hammer().off("swiperight").off("swipeleft").off("drag");
     $("#view-index").hide().removeClass("current-view");
   }
 }
