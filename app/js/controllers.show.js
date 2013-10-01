@@ -27,6 +27,8 @@ controllers.show = function(key) {
   this.init = function() {
     console.log("starting show");
 
+    $("#image").attr("src", "img/blank.png");
+
     $(window).bind("keydown.show", function(event)
     {
       if((event.keyCode == 32 || event.keyCode == 13) && utils.scrollDistanceFromBottom() <= 0)
