@@ -10,6 +10,9 @@ controllers.index = function(search, sort, sortDirection) {
     if(type == "pages") return function(book) {
       return book.pageUrls.length;
     };
+    if(type == "title") return function(book) {
+      return book.title;
+    };
   }
 
   var books = store;
@@ -27,7 +30,7 @@ controllers.index = function(search, sort, sortDirection) {
   function perPageFromWindow() {
     var windowWidth = $(window).width();
     if(windowWidth < 1000) return 15;
-    else if(windowWidth > 1000 && windowWidth < 1500) return 20;
+    else if(windowWidth > 1000 && windowWidth < 1500) return 21;
     else if(windowWidth > 1500) return 25;
   }
 

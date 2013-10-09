@@ -6,7 +6,8 @@ class Mangos::Update
     @mangos = mangos
 
     @directories = mangos.root_path.descendant_directories.reject { |p| p.basename.to_s[0..0] == '.' }
-    load_data
+    @books = []
+    #load_data
     process
     save_data
   end
@@ -16,20 +17,27 @@ class Mangos::Update
   end
 
   def save_data
+    puts "\nWriting out JSON file"
     Mangos::Mangos.save_json(mangos.mangos_path + "data.json", books.map { |b| b.to_hash })
   end
 
   def process
-    #handle deleted first
-    @directories.each do |d|
-      puts "d: #{d.inspect}"
-      book = books.find { |b| b.path == d }
-      if book
-        updated(book)
-      else
-        created(d)
-      end
+    @directories.each_with_index do |d, i|
+      $stdout.write "\rProcessing #{i + 1} of #{@directories.length} (#{(((i + 1) / @directories.length.to_f) * 100.0).round}%)"
+      $stdout.flush
+
+      created d
     end
+    #handle deleted first
+    #@directories.each do |d|
+    #  puts "d: #{d.inspect}"
+    #  book = books.find { |b| b.path == d }
+    #  if book
+    #    updated(book)
+    #  else
+    #    created(d)
+    #  end
+    #end
   end
 
   def deleted
@@ -37,7 +45,6 @@ class Mangos::Update
   end
 
   def created(directory)
-    puts "creating: #{directory}"
     book = Mangos::Book.new(mangos)
     book.path = directory
     book.generate_thumbnail

@@ -34,8 +34,10 @@ class Mangos::Book
     mangos.pathname_to_url(thumbnail_path, mangos.mangos_path)
   end
 
-  PREVIEW_WIDTH = 211
-  PREVIEW_HEIGHT = 332
+  #PREVIEW_WIDTH = 211
+  #PREVIEW_HEIGHT = 332
+  PREVIEW_WIDTH = 197
+  PREVIEW_HEIGHT = 310
 
   PREVIEW_SMALL_WIDTH = 98
   PREVIEW_SMALL_HEIGHT = 154
