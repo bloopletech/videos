@@ -29,7 +29,7 @@ controllers.index = function(search, sort, sortDirection) {
 
   function perPageFromWindow() {
     var windowWidth = $(window).width();
-    if(windowWidth < 1000) return 15;
+    if(windowWidth < 1000) return 16;
     else if(windowWidth > 1000 && windowWidth < 1500) return 21;
     else if(windowWidth > 1500) return 25;
   }
