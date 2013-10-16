@@ -21,7 +21,7 @@
 #items li .emblems, #items li .actions { display: block; position: absolute; top: 0; right: 0; padding: 1px; line-height: 0; background-color: #ffffff; }
 #items li .actions { display: none; right: auto; left: 0; width: 32px; }
 #items li > a { color: #000000; text-decoration: none; }
-#items li .info-wrapper { position: absolute; bottom: 0; background-color: #ffffff; }
+#items li .info-wrapper { position: absolute; bottom: 0; left: 0; right: 0; background-color: #ffffff; }
 #items li .info { padding: 2px; }
 #items li .info img { vertical-align: middle; }
 #items li .info .title { padding-bottom: 3px; }
