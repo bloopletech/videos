@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require "mangos"
-require "highline/import"
 
 command = ARGV.first || "sync"
 root_path = Pathname.new(ARGV[1] || ".").realpath
