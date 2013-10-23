@@ -88,6 +88,8 @@ controllers.index = function(search, sort, sortDirection) {
 
   this.render = function() {
     console.log("rendering");
+    window.scrollTo(0, 0);
+
     var booksPage = utils.paginate(books, perPage);
     addBooks(booksPage);
     lastControllerLocation = location.hash;

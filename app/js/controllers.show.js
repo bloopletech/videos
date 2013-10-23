@@ -22,32 +22,16 @@ controllers.show = function(key) {
 
   this.init = function() {
     console.log("starting show");
-
     $("#image").attr("src", "img/blank.png");
-
-    $(window).bind("keydown.show", function(event)
-    {
-      if((event.keyCode == 32 || event.keyCode == 13) && utils.scrollDistanceFromBottom() <= 0)
-      {
-        event.preventDefault();
-        utils.page(utils.page() + 1, book.pageUrls.length);
-      }
-      else if(event.keyCode == 8)
-      {
-        event.preventDefault();
-        history.back();
-      }
-    });
-
     $("#view-show").show().addClass("current-view");
-
     //setTimeout(preloadImages, 5000);
   }
 
   this.render = function() {
+    window.scrollTo(0, 0);
+
     var index = utils.page();
 
-    window.scrollTo(0, 0);
     _(5).times(function() {
       $("#image").attr('src', pageUrl(index));
     });
@@ -59,8 +43,6 @@ controllers.show = function(key) {
 
   this.destroy = function() {
     console.log("destroying show");
-    $(window).unbind(".show");
-    $("#view-show").unbind("click");
     $("#view-show").hide().removeClass("current-view");
   }
 }

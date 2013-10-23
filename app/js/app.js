@@ -12,7 +12,8 @@ $(function() {
   });
 
   $(window).keydown(function(event) {
-    if(event.keyCode == 39) {
+    if(event.keyCode == 39 || ((event.keyCode == 32 || event.keyCode == 13)
+      && utils.scrollDistanceFromBottom() <= 0)) {
       event.preventDefault();
       utils.page(utils.page() + 1);
     }
