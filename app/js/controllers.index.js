@@ -1,3 +1,5 @@
+var lastControllerLocation = null;
+
 controllers.index = function(search, sort, sortDirection) {
   var _this = this;
 
@@ -41,6 +43,7 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("starting index");
 
     $("#search").bind("keydown", function(event) {
+      event.stopPropagation();
       if(event.keyCode == 13) {
         event.preventDefault();
         utils.location({ params: [$("#search").val(), sort, sortDirection], hash: "1" });
@@ -59,14 +62,6 @@ controllers.index = function(search, sort, sortDirection) {
     $("a.sort-direction").bind("click", function(event) {
       event.preventDefault();
       utils.location({ params: [search, sort, $(this).data("sort-direction")], hash: "1" });
-    });
-
-    $("#view-index").hammer().on("drag swipeleft swiperight", function(event) {
-      if(Hammer.utils.isVertical(event.gesture.direction)) return;
-      event.gesture.preventDefault();
-
-      if(event.type == 'swipeleft') utils.page(utils.page() + 1, pages);
-      else if(event.type == 'swiperight') utils.page(utils.page() - 1, pages);
     });
 
     $("#view-index").show().addClass("current-view");
@@ -95,6 +90,7 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("rendering");
     var booksPage = utils.paginate(books, perPage);
     addBooks(booksPage);
+    lastControllerLocation = location.hash;
   }
 
   this.destroy = function() {
@@ -104,7 +100,6 @@ controllers.index = function(search, sort, sortDirection) {
     $("a.sort").unbind("click");
     $("a.sort-direction").unbind("click");
     $("#items").empty();
-    $("#view-index").hammer().off("swiperight").off("swipeleft").off("drag");
     $("#view-index").hide().removeClass("current-view");
   }
 }

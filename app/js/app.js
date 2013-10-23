@@ -1,13 +1,14 @@
 var store = null;
 
 $(function() {
-  $(document).on("dragstart", "img", false);
-
   $("#page-back").click(function() {
     utils.page(utils.page() - 1);
   });
   $("#page-next").click(function() {
     utils.page(utils.page() + 1);
+  });
+  $("#page-home").click(function() {
+    location.hash = lastControllerLocation;
   });
 
   $(window).keydown(function(event) {
