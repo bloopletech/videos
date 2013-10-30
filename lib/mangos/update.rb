@@ -10,6 +10,7 @@ class Mangos::Update
     #load_data
     process
     save_data
+    puts "\nDone!"
   end
 
   def load_data
@@ -18,10 +19,18 @@ class Mangos::Update
 
   def save_data
     puts "\nWriting out JSON file"
-    Mangos::Mangos.save_json(mangos.mangos_path + "data.json", books.map { |b| b.to_hash })
+    books_hashes = []
+    books.each_with_index do |b, i|
+      $stdout.write "\rProcessing #{i + 1} of #{books.length} (#{(((i + 1) / books.length.to_f) * 100.0).round}%)"
+      $stdout.flush
+
+      books_hashes << b.to_hash
+    end
+    Mangos::Mangos.save_json(mangos.mangos_path + "data.json", books_hashes)
   end
 
   def process
+    puts "\nLoading books"
     @directories.each_with_index do |d, i|
       $stdout.write "\rProcessing #{i + 1} of #{@directories.length} (#{(((i + 1) / @directories.length.to_f) * 100.0).round}%)"
       $stdout.flush

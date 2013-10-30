@@ -32,9 +32,7 @@ controllers.show = function(key) {
 
     var index = utils.page();
 
-    _(5).times(function() {
-      $("#image").attr('src', pageUrl(index));
-    });
+    $("#image").attr('src', pageUrl(index));
 
     if((index + 1) <= book.pageUrls.length) {
       preloadImage(index + 1);
