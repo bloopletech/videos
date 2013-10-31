@@ -11,7 +11,7 @@ class Pathname
   end
 
   def image?
-    file? && %w(.jpg .jpeg .png .gif).include?(extname)
+    file? && extname && %w(.jpg .jpeg .png .gif).include?(extname.downcase)
   end
 
   def hidden?
