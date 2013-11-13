@@ -1,13 +1,27 @@
 var store = null;
 
 $(function() {
-  $("#page-back").click(function() {
+  $(document).click(function() {
+    $("body").toggleClass("pagination-active");
+  });
+  $("#page-back").click(function(e) {
+    e.stopPropagation();
     utils.page(utils.page() - 1);
   });
-  $("#page-next").click(function() {
+  $("#page-back-10").click(function(e) {
+    e.stopPropagation();
+    utils.page(utils.page() - 10);
+  });
+  $("#page-next").click(function(e) {
+    e.stopPropagation();
     utils.page(utils.page() + 1);
   });
-  $("#page-home").click(function() {
+  $("#page-next-10").click(function(e) {
+    e.stopPropagation();
+    utils.page(utils.page() + 10);
+  });
+  $("#page-home").click(function(e) {
+    e.stopPropagation();
     location.hash = lastControllerLocation;
   });
 

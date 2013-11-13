@@ -1,4 +1,4 @@
-var lastControllerLocation = null;
+var lastControllerLocation = "#index!1";
 
 controllers.index = function(search, sort, sortDirection) {
   var _this = this;

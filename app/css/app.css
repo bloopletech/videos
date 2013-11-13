@@ -13,28 +13,75 @@ input[type="text"], select { padding: 1px; }
 .selector li:last-child { margin-right: 0; }
 .selector li.selected a { font-weight: bold; text-decoration: none; color: #000000; }
 
-#page-back, #page-next, #page-home {
+.paginator {
   position: fixed;
-  top: 0;
-  bottom: 0;
   width: 100px;
   z-index: 10000;
+
+  opacity: 0;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+
+  /* Internet Explorer 10 */
+  display: -ms-flexbox;
+  -ms-flex-pack: center;
+  -ms-flex-align: center;
+
+  /* Firefox */
+  display: -moz-box;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+
+  /* Safari, Opera, and Chrome */
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+
+  /* W3C */
+  display: box;
+  box-pack: center;
+  box-align: center;
 }
 
-#page-back:active, #page-next:active, #page-home:active {
+.paginator:active, body.pagination-active .paginator {
   background-color: #000000;
   opacity: 0.4;
 }
 
+.paginator:hover {
+  cursor: pointer;
+}
+
 #page-back {
+  top: 0;
+  bottom: 0;
   left: 0;
 }
 
 #page-next {
+  top: 0;
+  bottom: 0;
   right: 0;
 }
 
+#page-back-10 {
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  z-index: 10001;
+}
+
+#page-next-10 {
+  bottom: 0;
+  right: 0;
+  height: 100px;
+  z-index: 10001;
+}
+
 #page-home {
+  top: 0;
   left: 0;
   height: 100px;
   z-index: 10001;
