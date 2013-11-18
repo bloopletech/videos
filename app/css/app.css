@@ -1,4 +1,15 @@
-* { margin: 0; padding: 0; font: 16px/1.3em 'Open Sans', Helvetica, Arial, sans-serif; }
+* {
+  margin: 0;
+  padding: 0;
+  font: 16px/1.3em 'Open Sans', Helvetica, Arial, sans-serif;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 html, body { height: 100%; }
 body { color: #000000; }
 img { border: none; vertical-align: middle; }
