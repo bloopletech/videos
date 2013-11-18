@@ -7,14 +7,9 @@ class Mangos::Mangos
   end
 
   def update
+    mangos_path.mkdir unless File.exists?(mangos_path)
     update_app
     Mangos::Update.new(self)
-  end
-
-  def install
-    mangos_path.mkdir unless File.exists?(mangos_path)
-
-    update_app
   end
 
   def update_app

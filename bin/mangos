@@ -2,16 +2,7 @@
 
 require "mangos"
 
-command = ARGV.first || "sync"
-root_path = Pathname.new(ARGV[1] || ".").realpath
+root_path = Pathname.new(ARGV.first || ".").realpath
 
-case command
-when "install"
-  mangos = Mangos::Mangos.new(root_path)
-  mangos.install
-when "update"
-  mangos = Mangos::Mangos.new(root_path)
-  mangos.update
-else
-  puts "Unknown command #{command.inspect}"
-end
+mangos = Mangos::Mangos.new(root_path)
+mangos.update
