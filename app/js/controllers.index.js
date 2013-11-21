@@ -1,4 +1,4 @@
-var lastControllerLocation = "#index!1";
+var lastControllerLocation = "";
 
 controllers.index = function(search, sort, sortDirection) {
   var _this = this;
@@ -74,6 +74,7 @@ controllers.index = function(search, sort, sortDirection) {
       var item = $("<li>");
       var link = $("<a>");
       link.attr("href", "#show/" + book.key + "!1");
+      link.attr("target", "_blank");
       var img = $("<img>");
       img.attr("src", book.thumbnailUrl);
       link.append(img);

@@ -24,7 +24,12 @@ $(function() {
   });
   $("#page-home").click(function(e) {
     e.stopPropagation();
-    location.hash = lastControllerLocation;
+    if(lastControllerLocation != "") {
+      location.hash = lastControllerLocation;
+    }
+    else {
+      window.close();
+    }
   });
 
   $(window).keydown(function(event) {
