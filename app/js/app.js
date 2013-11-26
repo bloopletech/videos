@@ -3,9 +3,6 @@ var store = null;
 $(function() {
   $(document).on("dragstart", "a, img", false);
 
-  $(document).click(function() {
-    $("body").toggleClass("pagination-active");
-  });
   $("#page-back").click(function(e) {
     e.stopPropagation();
     utils.page(utils.page() - 1);

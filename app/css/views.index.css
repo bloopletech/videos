@@ -2,8 +2,8 @@
   display: none;
 }
 
-#header { padding: 10px; }
-#search { width: 300px; border: 1px solid #a0a0a0; }
+#header { padding: 12px; }
+#search { width: 250px; }
 #actions { float: right; }
 
 #wrapper { position: relative; background-color: #000000; }
