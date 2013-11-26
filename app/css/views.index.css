@@ -6,6 +6,12 @@
 #search { width: 250px; }
 #actions { float: right; }
 
+#header > form { 
+  width: 684px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #wrapper { position: relative; background-color: #000000; }
 
 #tag_cloud, #header { background-color: #ffffff; }
