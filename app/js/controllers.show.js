@@ -24,6 +24,7 @@ controllers.show = function(key) {
     console.log("starting show");
     $("#image").attr("src", "img/blank.png");
     $("#view-show").show().addClass("current-view");
+    $("title").text(book.title + " - Mangos");
     //setTimeout(preloadImages, 5000);
   }
 

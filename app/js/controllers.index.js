@@ -78,6 +78,7 @@ controllers.index = function(search, sort, sortDirection) {
     });
 
     $("#view-index").show().addClass("current-view");
+    $("title").text("Mangos");
   }
 
   function addBooks(books) {
