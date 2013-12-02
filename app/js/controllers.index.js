@@ -11,7 +11,7 @@ controllers.index = function(search, sort, sortDirection) {
       return book.pageUrls.length;
     };
     if(type == "title") return function(book) {
-      return book.title;
+      return book.title.toLowerCase();
     };
   }
 
@@ -54,6 +54,8 @@ controllers.index = function(search, sort, sortDirection) {
 
     $("#clear-search").bind("click", function() {
       $("#search").val("");
+      event.preventDefault();
+      location.href = "#index!1";
     });
 
     $(".sort button").bind("click", function(event) {
@@ -71,11 +73,6 @@ controllers.index = function(search, sort, sortDirection) {
 
     $(".sort-direction button").removeClass("active");
     $(".sort-direction button[data-sort-direction=" + sortDirection + "]").addClass("active");
-
-    $("#clear-search").bind("click", function(event) {
-      event.preventDefault();
-      location.href = "#index!1";
-    });
 
     $("#view-index").show().addClass("current-view");
     $("title").text("Mangos");
@@ -114,8 +111,8 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("destroying index");
     $("#search").unbind("keydown");
     $("#clear-search").unbind("click");
-    $("a.sort").unbind("click");
-    $("a.sort-direction").unbind("click");
+    $(".sort button").unbind("click");
+    $(".sort-direction button").unbind("click");
     $("#items").empty();
     $("#view-index").hide().removeClass("current-view");
   }
