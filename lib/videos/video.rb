@@ -16,7 +16,10 @@ class Videos::Video
   end
 
   def title
-    path.basename.to_s
+    title = path.relative_path_from(videos_package.root_path).to_s
+    title = title.chomp(path.extname.to_s)
+    title = title.gsub("/", " / ")
+    title
   end
 
   def thumbnail_path

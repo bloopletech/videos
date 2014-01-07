@@ -75,7 +75,7 @@ controllers.index = function(search, sort, sortDirection) {
     $(".sort-direction button[data-sort-direction=" + sortDirection + "]").addClass("active");
 
     $("#view-index").show().addClass("current-view");
-    $("title").text("Mangos");
+    $("title").text("Videos");
   }
 
   function addVideos(videos) {
