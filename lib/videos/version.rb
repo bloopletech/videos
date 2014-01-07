@@ -1,3 +1,3 @@
-module Mangos
-  VERSION = "0.0.6"
+module Videos
+  VERSION = "0.0.1"
 end
