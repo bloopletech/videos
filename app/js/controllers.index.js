@@ -4,32 +4,32 @@ controllers.index = function(search, sort, sortDirection) {
   var _this = this;
 
   function sortFor(type) {
-    if(type == "publishedOn") return function(book) {
-      return book.publishedOn;
+    if(type == "publishedOn") return function(video) {
+      return video.publishedOn;
     };
-    if(type == "pages") return function(book) {
-      return book.pageUrls.length;
-    };
-    if(type == "title") return function(book) {
-      return book.title.toLowerCase();
+/*    if(type == "pages") return function(video) {
+      return video.pageUrls.length;
+    };*/
+    if(type == "title") return function(video) {
+      return video.title.toLowerCase();
     };
   }
 
-  var books = store;
+  var videos = store;
   if(search && search != "") {
     var words = search.split(/\s+/);
     _.each(words, function(word) {
       regex = RegExp(word, "i");
-      books = _.filter(books, function(book) {
-        return book.title.match(regex);
+      videos = _.filter(videos, function(video) {
+        return video.title.match(regex);
       });
     });
   }
   if(!sort) sort = "publishedOn";
-  books = _.sortBy(books, sortFor(sort));
+  videos = _.sortBy(videos, sortFor(sort));
 
   if(!sortDirection) sortDirection = "desc";
-  if(sortDirection == "desc") books = books.reverse();
+  if(sortDirection == "desc") videos = videos.reverse();
 
   function perPageFromWindow() {
     var windowWidth = $(window).width();
@@ -39,7 +39,7 @@ controllers.index = function(search, sort, sortDirection) {
   }
 
   var perPage = perPageFromWindow();
-  var pages = utils.pages(books, perPage);
+  var pages = utils.pages(videos, perPage);
 
   this.init = function() {
     console.log("starting index");
@@ -78,21 +78,20 @@ controllers.index = function(search, sort, sortDirection) {
     $("title").text("Mangos");
   }
 
-  function addBooks(books) {
+  function addVideos(videos) {
     $("#items").empty();
 
-    _.each(books, function(book) {
+    _.each(videos, function(video) {
       var item = $("<li>");
       var link = $("<a>");
-      link.attr("href", "#show/" + book.key + "!1");
+      link.attr("href", video.url);
       link.attr("target", "_blank");
       var img = $("<img>");
-      img.attr("src", book.thumbnailUrl);
+      img.attr("src", video.thumbnailUrl);
       link.append(img);
       item.append(link);
 
-      item.append('<div class="info-wrapper"><div class="info"><div class="title">' + book.title + '</div>' +
-        '<img src="img/icons/page_white.png" title="Pages"> ' + book.pageUrls.length + '</div></div>');
+      item.append('<div class="info-wrapper"><div class="info"><div class="title">' + video.title + '</div></div>');
 
       $("#items").append(item);
     });
@@ -102,8 +101,8 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("rendering");
     window.scrollTo(0, 0);
 
-    var booksPage = utils.paginate(books, perPage);
-    addBooks(booksPage);
+    var videosPage = utils.paginate(videos, perPage);
+    addVideos(videosPage);
     lastControllerLocation = location.hash;
   }
 

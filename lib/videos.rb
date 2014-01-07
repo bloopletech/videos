@@ -20,4 +20,4 @@ end
 require "videos/videos"
 require "videos/videos_package"
 require "videos/update"
-require "videos/book"
+require "videos/video"

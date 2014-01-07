@@ -1,9 +1,10 @@
 class Videos::Video
   attr_reader :videos_package
-  attr_accessor :path
+  attr_reader :path
 
-  def initialize(videos_package)
-    @videos = videos_package
+  def initialize(videos_package, path)
+    @videos_package = videos_package
+    @path = path
   end
 
   def path_hash
@@ -37,7 +38,7 @@ class Videos::Video
   def generate_thumbnail
     return if thumbnail_path.exist?
 
-    img = Magick::Image.read(page_paths.first).first
+    img = Magick::Image.read(path).first
 
     p_width = PREVIEW_WIDTH
     p_height = PREVIEW_HEIGHT
