@@ -32,8 +32,8 @@ class Videos::Video
 
   #PREVIEW_WIDTH = 211
   #PREVIEW_HEIGHT = 332
-  PREVIEW_WIDTH = 197
-  PREVIEW_HEIGHT = 310
+  PREVIEW_WIDTH = 274
+  PREVIEW_HEIGHT = 155
 
   PREVIEW_SMALL_WIDTH = 98
   PREVIEW_SMALL_HEIGHT = 154
@@ -44,7 +44,7 @@ class Videos::Video
     temp_directory = "/tmp/videos_#{Process.pid}"
     FileUtils.mkdir_p(temp_directory)
 
-    system("mpv --start=50% --frames=1 --ao=null --vo=image:outdir=#{temp_directory.shellescape} #{path.to_s.shellescape}")
+    system("mpv --really-quiet --start=50% --frames=1 --ao=null --vo=image:outdir=#{temp_directory.shellescape} #{path.to_s.shellescape}")
 
     out_path = "00000001.jpg"
 
@@ -53,11 +53,7 @@ class Videos::Video
     p_width = PREVIEW_WIDTH
     p_height = PREVIEW_HEIGHT
 
-    if (img.columns > img.rows) && img.columns > p_width && img.rows > p_height #if it's landscape-oriented
-      img.crop!(Magick::CenterGravity, img.rows / (p_height / p_width.to_f), img.rows) #Resize it so the center part of the image is shown
-    end
-
-    img.change_geometry!("#{p_width}>") { |cols, rows, _img| _img.resize!(cols, rows) }
+    img.resize_to_fill!(p_width, p_height)
 
     img.page = Magick::Rectangle.new(img.columns, img.rows, 0, 0)
     img = img.extent(p_width, p_height, 0, 0)

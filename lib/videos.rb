@@ -14,6 +14,7 @@ require "RMagick"
 #Core Extensions
 require "videos/core_ext/pathname"
 
+require "pry"
 module Videos
 end
 
