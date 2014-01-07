@@ -12,13 +12,12 @@ require "naturally"
 require "RMagick"
 
 #Core Extensions
-require "mangos/core_ext/pathname"
+require "videos/core_ext/pathname"
 
-module Mangos
+module Videos
 end
 
-require "mangos/mangos"
-require "mangos/mangos_package"
-require "mangos/update"
-require "mangos/book"
-require "mangos/template_helper"
+require "videos/videos"
+require "videos/videos_package"
+require "videos/update"
+require "videos/book"

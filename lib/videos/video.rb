@@ -1,9 +1,9 @@
-class Mangos::Book
-  attr_reader :mangos
+class Videos::Video
+  attr_reader :videos_package
   attr_accessor :path
 
-  def initialize(mangos)
-    @mangos = mangos
+  def initialize(videos_package)
+    @videos = videos_package
   end
 
   def path_hash
@@ -11,15 +11,7 @@ class Mangos::Book
   end
 
   def url
-    mangos.pathname_to_url(path, mangos.mangos_path)
-  end
-
-  def page_paths
-    path.children.select { |p| p.image? && !p.hidden? }.sort_by { |p| Naturally.normalize(p.basename) }
-  end
-
-  def page_urls
-    page_paths.map { |p| mangos.pathname_to_url(p, path) }
+    videos_package.pathname_to_url(path, videos_package.videos_path)
   end
 
   def title
@@ -27,11 +19,11 @@ class Mangos::Book
   end
 
   def thumbnail_path
-    mangos.mangos_path + "img/thumbnails/" + "#{path_hash}.jpg"
+    videos_package.videos_path + "img/thumbnails/" + "#{path_hash}.jpg"
   end
 
   def thumbnail_url
-    mangos.pathname_to_url(thumbnail_path, mangos.mangos_path)
+    videos_package.pathname_to_url(thumbnail_path, videos_package.videos_path)
   end
 
   #PREVIEW_WIDTH = 211
@@ -65,17 +57,15 @@ class Mangos::Book
     puts "There was an error generating thumbnail: #{e.inspect}"
   end
 
-  def self.from_hash(mangos, data)
-    book = Mangos::Book.new(mangos)
-    book.path = mangos.url_to_pathname(Addressable::URI.parse(data["url"]))
-    book
+  def self.from_hash(videos_package, data)
+    video = Videos::Video.new(videos_package)
+    video.path = videos_package.url_to_pathname(Addressable::URI.parse(data["url"]))
+    video
   end
 
   def to_hash
     {
       "url" => url,
-      "pageUrls" => page_urls,
-      "pages" => page_urls.length,
       "title" => title,
       "publishedOn" => path.mtime.to_i,
       "thumbnailUrl" => thumbnail_url,

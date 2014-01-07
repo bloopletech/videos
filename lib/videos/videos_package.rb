@@ -1,35 +1,35 @@
-class Mangos::Mangos
+class Videos::Videos
   def initialize(root_path)
     raise "root_path must be an instance of Pathname" unless root_path.is_a?(Pathname)
 
     @root_path = root_path
-    @mangos_path = root_path + ".mangos/"
+    @videos_path = root_path + ".videos/"
   end
 
   def update
-    mangos_path.mkdir unless File.exists?(mangos_path)
+    videos_path.mkdir unless File.exists?(videos_path)
     update_app
-    Mangos::Update.new(self)
+    Videos::Update.new(self)
   end
 
   def update_app
-    dev = ENV["MANGOS_ENV"] == "development"
+    dev = ENV["VIDEOS_ENV"] == "development"
 
     app_children_paths.each do |file|
-      mangos_file = mangos_path + file.basename
-      FileUtils.rm_rf(mangos_file, :verbose => dev)
+      videos_file = videos_path + file.basename
+      FileUtils.rm_rf(videos_file, :verbose => dev)
     end
 
     if dev
       app_children_paths.each do |file|
-        mangos_file = mangos_path + file.basename
-        FileUtils.ln_sf(file, mangos_file, :verbose => dev)
+        videos_file = videos_path + file.basename
+        FileUtils.ln_sf(file, videos_file, :verbose => dev)
       end
     else
-      FileUtils.cp_r(Mangos::Mangos.gem_path + "app/.", mangos_path, :verbose => dev)
+      FileUtils.cp_r(Videos::Videos.gem_path + "app/.", videos_path, :verbose => dev)
     end
 
-    FileUtils.chmod_R(0755, mangos_path, :verbose => dev)
+    FileUtils.chmod_R(0755, videos_path, :verbose => dev)
   end
 
   def self.load_json(path)
@@ -46,7 +46,7 @@ class Mangos::Mangos
 
   private
   def app_children_paths
-    app_path = Mangos::Mangos.gem_path + "app/"
+    app_path = Videos::Videos.gem_path + "app/"
     app_path.children.reject { |f| f.basename.to_s == "img"} #TODO: Deal with this directory properly
   end
 end

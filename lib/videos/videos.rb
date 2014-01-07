@@ -1,6 +1,6 @@
-class Mangos::Mangos
+class Videos::Videos
   attr_reader :root_path
-  attr_reader :mangos_path
+  attr_reader :videos_path
 
   def pathname_to_url(path, relative_from)
     URI.escape(path.relative_path_from(relative_from).to_s)

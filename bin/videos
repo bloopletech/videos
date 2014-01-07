@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require "mangos"
+require "videos"
 
 root_path = Pathname.new(ARGV.first || ".").realpath
 
-mangos = Mangos::Mangos.new(root_path)
-mangos.update
+videos = Videos::Videos.new(root_path)
+videos.update
