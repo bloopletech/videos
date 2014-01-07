@@ -78,14 +78,20 @@ controllers.index = function(search, sort, sortDirection) {
     $("title").text("Videos");
   }
 
+  function absoluteURL(url) {
+	  var a = document.createElement("a");
+	  a.href = url;
+	  return a.href;
+  }
+
   function addVideos(videos) {
     $("#items").empty();
 
     _.each(videos, function(video) {
       var item = $("<li>");
       var link = $("<a>");
-      link.attr("href", video.url);
-      link.attr("target", "_blank");
+      link.attr("href", "play://" + absoluteURL(video.url));
+      //link.attr("target", "_blank");
       var img = $("<img>");
       img.attr("src", video.thumbnailUrl);
       link.append(img);
