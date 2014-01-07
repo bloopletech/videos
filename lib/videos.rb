@@ -4,10 +4,10 @@ require "fileutils"
 require "uri"
 require "json"
 require "digest"
+require "shellwords"
 
 #Gems
 require "addressable/uri"
-require "haml"
 require "naturally"
 require "RMagick"
 
