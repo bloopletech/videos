@@ -1,10 +1,13 @@
 class Videos::Video
   attr_reader :videos_package
   attr_reader :path
+  attr_reader :metadata
+  attr_accessor :length
 
   def initialize(videos_package, path)
     @videos_package = videos_package
     @path = path
+    @metadata = {}
   end
 
   def path_hash
@@ -66,9 +69,17 @@ class Videos::Video
     FileUtils.rm_rf(temp_directory) if temp_directory
   end
 
+  def get_metadata
+    return unless length.nil?
+
+    output = `mpv --really-quiet -identify --frames=0 --ao=null #{path.to_s.shellescape}`.encode("ASCII-8BIT", undef: :replace, invalid: :replace, replace: "?")
+    @metadata = Hash[output.split("\n").map { |l| l.gsub(/^\[identify\] /, "").split("=", 2) }]
+    @length = metadata["ID_LENGTH"].to_f
+  end
+
   def self.from_hash(videos_package, data)
-    video = Videos::Video.new(videos_package)
-    video.path = videos_package.url_to_pathname(Addressable::URI.parse(data["url"]))
+    video = Videos::Video.new(videos_package, videos_package.url_to_pathname(Addressable::URI.parse(data["url"])))
+    video.length = data["length"]
     video
   end
 
@@ -78,6 +89,7 @@ class Videos::Video
       "title" => title,
       "publishedOn" => path.mtime.to_i,
       "thumbnailUrl" => thumbnail_url,
+      "length" => length,
       "key" => path_hash
     }
   end

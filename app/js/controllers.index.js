@@ -7,9 +7,9 @@ controllers.index = function(search, sort, sortDirection) {
     if(type == "publishedOn") return function(video) {
       return video.publishedOn;
     };
-/*    if(type == "pages") return function(video) {
-      return video.pageUrls.length;
-    };*/
+    if(type == "length") return function(video) {
+      return video.length;
+    };
     if(type == "title") return function(video) {
       return video.title.toLowerCase();
     };
@@ -84,6 +84,22 @@ controllers.index = function(search, sort, sortDirection) {
 	  return a.href;
   }
 
+  function formatLength(length) {
+    var out = [];
+    if(length >= 3600) {
+      out.push(Math.floor(length / 3600) + "h");
+      length = length % 3600;
+    }
+    if(length >= 60) {
+      out.push(Math.floor(length / 60) + "m");
+      length = length % 60;
+    }
+    if(length >= 1) {
+      out.push(Math.floor(length) + "s");
+    }
+    return out.join(" ");
+  }
+
   function addVideos(videos) {
     $("#items").empty();
 
@@ -97,7 +113,8 @@ controllers.index = function(search, sort, sortDirection) {
       link.append(img);
       item.append(link);
 
-      item.append('<div class="info-wrapper"><div class="info"><div class="title">' + video.title + '</div></div>');
+      item.append('<div class="info-wrapper"><div class="info"><div class="title">' + video.title + '</div>' +
+        '<img src="img/icons/film.png" title="Video Length"> ' + formatLength(video.length) + '</div>');
 
       $("#items").append(item);
     });

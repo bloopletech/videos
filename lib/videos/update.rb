@@ -7,14 +7,14 @@ class Videos::Update
 
     @files = videos_package.root_path.descendant_files.reject { |p| p.basename.to_s[0..0] == '.' }
     @videos = []
-    #load_data
+    load_data
     process
     save_data
     puts "\nDone!"
   end
 
   def load_data
-    self.videos = (Videos::Videos.load_json(video_package.videos_path + "data.json") || []).map { |b| Videos::Video.from_hash(video_package, b) }
+    self.videos = (Videos::Videos.load_json(videos_package.videos_path + "data.json") || []).map { |b| Videos::Video.from_hash(videos_package, b) }
   end
 
   def save_data
@@ -35,7 +35,13 @@ class Videos::Update
       $stdout.write "\rProcessing #{i + 1} of #{@files.length} (#{(((i + 1) / @files.length.to_f) * 100.0).round}%)"
       $stdout.flush
 
-      created f
+      #video = videos.find { |v| v.path.to_s == f.to_s }
+
+      #if video
+      #  updated video
+      #else
+        created f
+      #end
     end
     #handle deleted first
     #@directories.each do |d|
@@ -56,11 +62,12 @@ class Videos::Update
   def created(f)
     video = Videos::Video.new(videos_package, f)
     video.generate_thumbnail
+    video.get_metadata
     videos << video
   end
 
   def updated(video)
-    puts "updating: #{video.inspect}"
-    #
+    video.generate_thumbnail
+    video.get_metadata
   end
 end

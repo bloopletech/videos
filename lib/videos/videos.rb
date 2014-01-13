@@ -9,7 +9,7 @@ class Videos::Videos
   def url_to_pathname(url)
     path = Addressable::URI.unencode_component(url.normalized_path)
     path.gsub!(/^\//, "") #Make relative, if we allow mounting at a different root URL this will need to remove the root instead of just '/'
-    root_url_path + path
+    root_path + path
   end
 
   def self.gem_path
