@@ -10,6 +10,7 @@ require "shellwords"
 require "addressable/uri"
 require "naturally"
 require "RMagick"
+require "nokogiri"
 
 #Core Extensions
 require "videos/core_ext/pathname"

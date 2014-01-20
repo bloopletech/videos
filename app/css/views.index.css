@@ -31,6 +31,7 @@
 #items li .info { padding: 2px; }
 #items li .info img { vertical-align: middle; }
 #items li .info .title { padding-bottom: 3px; }
+#items li .info .labels { margin-bottom: 4px; }
 #items .tag_list { min-height: 1.2em; }
 #items .tag_list:hover { background-color: #ffffaa; }
 #items input { width: 100%; }

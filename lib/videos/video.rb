@@ -70,11 +70,13 @@ class Videos::Video
   end
 
   def get_metadata
-    return unless length.nil?
+    return unless metadata.keys.empty?
 
-    output = `mpv --really-quiet -identify --frames=0 --ao=null #{path.to_s.shellescape}`.encode("ASCII-8BIT", undef: :replace, invalid: :replace, replace: "?")
-    @metadata = Hash[output.split("\n").map { |l| l.gsub(/^\[identify\] /, "").split("=", 2) }]
-    @length = metadata["ID_LENGTH"].to_f
+    output = `mediainfo -f --Output=XML #{path.to_s.shellescape}`
+    doc = Nokogiri::XML.parse(output)
+    @metadata["length"] = doc.search("File Duration").first.text.to_i
+    @metadata["width"] = doc.search("File Width").first.text.to_i
+    @metadata["height"] = doc.search("File Height").first.text.to_i
   end
 
   def self.from_hash(videos_package, data)
@@ -89,8 +91,23 @@ class Videos::Video
       "title" => title,
       "publishedOn" => path.mtime.to_i,
       "thumbnailUrl" => thumbnail_url,
-      "length" => length,
+      "length" => (metadata["length"] / 1000.0).round,
+      "width" => metadata["width"],
+      "height" => metadata["height"],
+      "resolution" => approx_resolution,
       "key" => path_hash
     }
+  end
+
+  private
+  def approx_resolution
+    if metadata["width"] == 1920 && metadata["height"] == 1080
+      "1080p"
+    elsif
+      metadata["width"] == 1280 && metadata["height"] == 720
+      "720p"
+    else
+      "#{metadata["width"]}x#{metadata["height"]}"
+    end
   end
 end

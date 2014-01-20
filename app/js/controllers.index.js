@@ -21,7 +21,7 @@ controllers.index = function(search, sort, sortDirection) {
     _.each(words, function(word) {
       regex = RegExp(word, "i");
       videos = _.filter(videos, function(video) {
-        return video.title.match(regex);
+        return video.title.match(regex) || video.resolution.match(regex);
       });
     });
   }
@@ -84,7 +84,7 @@ controllers.index = function(search, sort, sortDirection) {
 	  return a.href;
   }
 
-  function formatLength(length) {
+  function formatLengthNumeric(length) {
     var out = [];
     if(length >= 3600) {
       out.push(Math.floor(length / 3600) + "h");
@@ -98,6 +98,21 @@ controllers.index = function(search, sort, sortDirection) {
       out.push(Math.floor(length) + "s");
     }
     return out.join(" ");
+  }
+
+  function formatLength(length) {
+    return '<span class="label label-default" title="Video Length"><span class="glyphicon glyphicon-expand"></span> ' + 
+      formatLengthNumeric(length) + '</span>';
+  }
+
+  function formatResolution(resolution) {
+    if(resolution == "1080p") {
+      return '<span class="label label-success" title="Video Width/Height"><span class="glyphicon ' +
+        'glyphicon-hd-video"></span> 1080p</span>';
+    }
+    else {
+      return '<span class="label label-default" title="Video Width/Height">' + resolution + '</span>';
+    }
   }
 
   function addVideos(videos) {
@@ -114,7 +129,8 @@ controllers.index = function(search, sort, sortDirection) {
       item.append(link);
 
       item.append('<div class="info-wrapper"><div class="info"><div class="title">' + video.title + '</div>' +
-        '<img src="img/icons/film.png" title="Video Length"> ' + formatLength(video.length) + '</div>');
+        '<div class="labels">' + formatLength(video.length) + ' ' + formatResolution(video.resolution) +
+        '</div></div>');
 
       $("#items").append(item);
     });

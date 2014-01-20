@@ -7,7 +7,7 @@ class Videos::Update
 
     @files = videos_package.root_path.descendant_files.reject { |p| p.basename.to_s[0..0] == '.' }
     @videos = []
-    load_data
+    #load_data
     process
     save_data
     puts "\nDone!"
