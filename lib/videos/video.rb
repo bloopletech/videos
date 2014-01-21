@@ -74,9 +74,9 @@ class Videos::Video
 
     output = `mediainfo -f --Output=XML #{path.to_s.shellescape}`
     doc = Nokogiri::XML.parse(output)
-    @metadata["length"] = doc.search("File Duration").first.text.to_i
-    @metadata["width"] = doc.search("File Width").first.text.to_i
-    @metadata["height"] = doc.search("File Height").first.text.to_i
+    @metadata["length"] = (e = doc.search("File Duration").first) ? e.text.to_i : 0
+    @metadata["width"] = (e = doc.search("File Width").first) ? e.text.to_i : 0
+    @metadata["height"] = (e = doc.search("File Height").first) ? e.text.to_i : 0
   end
 
   def self.from_hash(videos_package, data)

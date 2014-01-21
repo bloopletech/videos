@@ -8,7 +8,7 @@ class Pathname
   end
 
   def video?
-    file? && extname && %w(.mp4 .mkv .flv .avi .m4v .mov .wmv).include?(extname.downcase)
+    file? && extname && %w(.mp4 .mkv .flv .avi .m4v .mov .wmv .mpg).include?(extname.downcase[0..3])
   end
 
   def hidden?

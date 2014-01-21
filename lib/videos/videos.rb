@@ -3,7 +3,8 @@ class Videos::Videos
   attr_reader :videos_path
 
   def pathname_to_url(path, relative_from)
-    URI.escape(path.relative_path_from(relative_from).to_s)
+    url = path.relative_path_from(relative_from)
+    (url.dirname + URI.escape(url.basename.to_s, URI::REGEXP::PATTERN::RESERVED).force_encoding("utf-8")).to_s
   end
 
   def url_to_pathname(url)
