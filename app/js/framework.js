@@ -64,6 +64,10 @@ var router = function() {
   var currentRoute = null;
 
   this.init = function() {
+    _.each(controllers, function(controller) {
+      controller.setup();
+    });
+
     $(window).bind("hashchange", function() {
       var route = utils.location().route;
       if(route == "") return;

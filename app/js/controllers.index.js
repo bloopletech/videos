@@ -78,61 +78,11 @@ controllers.index = function(search, sort, sortDirection) {
     $("title").text("Videos");
   }
 
-  function absoluteURL(url) {
-	  var a = document.createElement("a");
-	  a.href = url;
-	  return a.href;
-  }
-
-  function formatLengthNumeric(length) {
-    var out = [];
-    if(length >= 3600) {
-      out.push(Math.floor(length / 3600) + "h");
-      length = length % 3600;
-    }
-    if(length >= 60) {
-      out.push(Math.floor(length / 60) + "m");
-      length = length % 60;
-    }
-    if(length >= 1) {
-      out.push(Math.floor(length) + "s");
-    }
-    return out.join(" ");
-  }
-
-  function formatLength(length) {
-    return '<span class="label label-default" title="Video Length"><span class="glyphicon glyphicon-expand"></span> ' + 
-      formatLengthNumeric(length) + '</span>';
-  }
-
-  function formatResolution(resolution) {
-    if(resolution == "1080p") {
-      return '<span class="label label-success" title="Video Width/Height"><span class="glyphicon ' +
-        'glyphicon-hd-video"></span> 1080p</span>';
-    }
-    else {
-      return '<span class="label label-default" title="Video Width/Height">' + resolution + '</span>';
-    }
-  }
-
   function addVideos(videos) {
     $("#items").empty();
 
     _.each(videos, function(video) {
-      var item = $("<li>");
-      var link = $("<a>");
-      link.attr("href", "play://" + absoluteURL(video.url));
-      //link.attr("target", "_blank");
-      var img = $("<img>");
-      img.attr("src", video.thumbnailUrl);
-      link.append(img);
-      item.append(link);
-
-      item.append('<div class="info-wrapper"><div class="info"><div class="title">' + video.title + '</div>' +
-        '<div class="labels">' + formatLength(video.length) + ' ' + formatResolution(video.resolution) +
-        '</div></div>');
-
-      $("#items").append(item);
+      $("#items").append(controllers.index.videoTemplate({ video: video }));
     });
   }
 
@@ -154,4 +104,8 @@ controllers.index = function(search, sort, sortDirection) {
     $("#items").empty();
     $("#view-index").hide().removeClass("current-view");
   }
+}
+
+controllers.index.setup = function() {
+  controllers.index.videoTemplate = Handlebars.compile($("#videos-template").remove().html());
 }
