@@ -6,15 +6,6 @@ helpers.absoluteURL = function(url) {
   return a.href;
 };
 
-helpers.playUrl = function(url) {
-  if($.browser.android || $.browser.iphone) {
-    return url;
-  }
-  else {
-    return "play://" + helpers.absoluteURL(url);
-  }
-};
-
 helpers.formatLengthNumeric = function(length) {
   var out = [];
   if(length >= 3600) {
@@ -42,6 +33,6 @@ helpers.formatResolution = function(resolution) {
   }
 };
 
-Handlebars.registerHelper('playUrl', helpers.playUrl);
+Handlebars.registerHelper('absoluteURL', helpers.absoluteURL);
 Handlebars.registerHelper('formatLengthNumeric', helpers.formatLengthNumeric);
 Handlebars.registerHelper('formatResolution', helpers.formatResolution);

@@ -79,10 +79,11 @@ controllers.index = function(search, sort, sortDirection) {
   }
 
   function addVideos(videos) {
+    var isMobile = $.browser.android || $.browser.iphone;
     $("#items").empty();
 
     _.each(videos, function(video) {
-      $("#items").append(controllers.index.videoTemplate({ video: video }));
+      $("#items").append(controllers.index.videoTemplate({ video: video, isMobile: isMobile }));
     });
   }
 

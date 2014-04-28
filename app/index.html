@@ -51,10 +51,10 @@
         <ul id="items">
           <div id="videos-template">
             <li>
-              {{#if mobile}}
+              {{#if isMobile}}
                 <a href="{{video.url}}" target="_blank">
               {{else}}
-                <a href="{{playUrl video.url}}">
+                <a href="play://{{absoluteURL video.url}}">
               {{/if}}
                   <img src="{{video.thumbnailUrl}}">
                 </a>
