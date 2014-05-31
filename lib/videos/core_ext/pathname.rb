@@ -7,8 +7,10 @@ class Pathname
     out
   end
 
+  VIDEO_EXTS = %w(.mp4 .mkv .flv .avi .m4v .mov .wmv .mpg .webm)
+
   def video?
-    file? && extname && %w(.mp4 .mkv .flv .avi .m4v .mov .wmv .mpg).include?(extname.downcase[0..3])
+    file? && extname && VIDEO_EXTS.any? { |t| extname.downcase.start_with?(t) }
   end
 
   def hidden?
