@@ -17,14 +17,27 @@ controllers.index = function(search, sort, sortDirection) {
 
   var videos = store;
   if(search && search != "") {
-    var words = search.split(/\s+/);
-    _.each(words, function(word) {
-      regex = RegExp(word, "i");
-      videos = _.filter(videos, function(video) {
-        return video.title.match(regex) || video.resolution.match(regex);
-      });
+    var words = _.partition(search.split(/\s+/), function(word) {
+      return word.match(/^-/);
+    });
+
+    var includedWords = words[1];
+    var excludedWords = words[0];
+
+    function containsRegex(regex, video) {
+      return video.title.match(regex) || video.resolution.match(regex);
+    }
+
+    _.each(includedWords, function(word) {
+      videos = _.filter(videos, _.partial(containsRegex, RegExp(word, "i")));
+    });
+
+    _.each(excludedWords, function(word) {
+      word = word.substr(1);
+      videos = _.reject(videos, _.partial(containsRegex, RegExp(word, "i")));
     });
   }
+
   if(!sort) sort = "publishedOn";
   videos = _.sortBy(videos, sortFor(sort));
 
