@@ -1,11 +1,11 @@
 class Videos::Update
-  attr_reader :videos_package
+  attr_reader :package
   attr_accessor :videos
 
-  def initialize(videos_package)
-    @videos_package = videos_package
+  def initialize(package)
+    @package = package
 
-    @files = videos_package.root_path.descendant_files.reject { |p| p.basename.to_s[0..0] == '.' }
+    @files = package.path.descendant_files.reject { |p| p.basename.to_s[0..0] == '.' }
     @videos = []
     #load_data
     process
@@ -14,7 +14,7 @@ class Videos::Update
   end
 
   def load_data
-    self.videos = (Videos::Videos.load_json(videos_package.videos_path + "data.json") || []).map { |b| Videos::Video.from_hash(videos_package, b) }
+    self.videos = (Videos::Package.load_json(package.app_path + "data.json") || []).map { |b| Videos::Video.from_hash(package, b) }
   end
 
   def save_data
@@ -26,7 +26,7 @@ class Videos::Update
 
       videos_hashes << b.to_hash
     end
-    Videos::Videos.save_json(videos_package.videos_path + "data.json", videos_hashes)
+    Videos::Package.save_json(package.app_path + "data.json", videos_hashes)
   end
 
   def process
@@ -60,7 +60,7 @@ class Videos::Update
   end
 
   def created(f)
-    video = Videos::Video.new(videos_package, f)
+    video = Videos::Video.new(package, f)
     video.generate_thumbnail
     video.get_metadata
     videos << video

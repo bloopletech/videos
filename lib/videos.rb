@@ -18,7 +18,6 @@ require "videos/core_ext/pathname"
 module Videos
 end
 
-require "videos/videos"
-require "videos/videos_package"
+require "videos/package"
 require "videos/update"
 require "videos/video"

@@ -1,11 +1,11 @@
 class Videos::Video
-  attr_reader :videos_package
+  attr_reader :package
   attr_reader :path
   attr_reader :metadata
   attr_accessor :length
 
-  def initialize(videos_package, path)
-    @videos_package = videos_package
+  def initialize(package, path)
+    @package = package
     @path = path
     @metadata = {}
   end
@@ -15,22 +15,22 @@ class Videos::Video
   end
 
   def url
-    videos_package.pathname_to_url(path, videos_package.videos_path)
+    package.pathname_to_url(path, package.app_path)
   end
 
   def title
-    title = path.relative_path_from(videos_package.root_path).to_s
+    title = path.relative_path_from(package.path).to_s
     title = title.chomp(path.extname.to_s)
     title = title.gsub("/", " / ")
     title
   end
 
   def thumbnail_path
-    videos_package.videos_path + "img/thumbnails/" + "#{path_hash}.jpg"
+    package.app_path + "img/thumbnails/" + "#{path_hash}.jpg"
   end
 
   def thumbnail_url
-    videos_package.pathname_to_url(thumbnail_path, videos_package.videos_path)
+    package.pathname_to_url(thumbnail_path, package.app_path)
   end
 
   #PREVIEW_WIDTH = 211
@@ -79,8 +79,8 @@ class Videos::Video
     @metadata["height"] = (e = doc.search("File Height").first) ? e.text.to_i : 0
   end
 
-  def self.from_hash(videos_package, data)
-    video = Videos::Video.new(videos_package, videos_package.url_to_pathname(Addressable::URI.parse(data["url"])))
+  def self.from_hash(package, data)
+    video = Videos::Video.new(package, package.url_to_pathname(Addressable::URI.parse(data["url"])))
     video.length = data["length"]
     video
   end

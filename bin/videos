@@ -4,5 +4,5 @@ require "videos"
 
 root_path = Pathname.new(ARGV.first || ".").realpath
 
-videos = Videos::Videos.new(root_path)
+videos = Videos::Package.new(root_path)
 videos.update
