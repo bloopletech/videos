@@ -7,7 +7,6 @@
     <link href="css/lib/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/app.css" rel="stylesheet" type="text/css">
     <link href="css/views.index.css" rel="stylesheet" type="text/css">
-    <link href="css/views.show.css" rel="stylesheet" type="text/css">
 
     <script src="js/lib/jquery-2.0.3.js" type="text/javascript"></script>
     <script src="js/lib/bootstrap.js" type="text/javascript"></script>
@@ -17,37 +16,43 @@
     <script src="js/framework.js" type="text/javascript"></script>
     <script src="js/helpers.js" type="text/javascript"></script>
     <script src="js/controllers.index.js" type="text/javascript"></script>
-    <!--    <script src="js/controllers.show.js" type="text/javascript"></script>-->
     <script src="js/app.js" type="text/javascript"></script>
 
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
   </head>
   <body>
-    <div id="view-index">
-      <div id="header">
-        <form class="form-inline">
-          <input type="text" id="search" class="form-control">
-          <span class="btn-group sort">
-            <button class="btn btn-default" data-sort="publishedOn" type="button">Published On</button>
-            <button class="btn btn-default" data-sort="length" type="button">Length</button>
-            <button class="btn btn-default" data-sort="title" type="button">Title</button>
-          </span>
-          <span class="btn-group sort-direction">
-            <button class="btn btn-default" data-sort-direction="asc" type="button">
-              <span class="glyphicon glyphicon-sort-by-attributes"></span>
-            </button>
-            <button class="btn btn-default" data-sort-direction="desc" type="button">
-              <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-            </button>
-          </span>
-          <button type="button" class="btn btn-default" id="clear-search">
-            <span class="glyphicon glyphicon-remove"></span> Clear
-          </button>
-        </form>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div id="navbar-content-target">
+        </div>
       </div>
+    </nav>
 
-      <div id="wrapper">
+    <div id="wrapper">
+      <div id="view-index">
+        <div class="navbar-content">
+          <form class="navbar-form ">
+            <input type="text" id="search" class="form-control">
+            <span class="btn-group sort">
+              <button class="btn btn-default" data-sort="publishedOn" type="button">Published On</button>
+              <button class="btn btn-default" data-sort="length" type="button">Length</button>
+              <button class="btn btn-default" data-sort="title" type="button">Title</button>
+            </span>
+            <span class="btn-group sort-direction">
+              <button class="btn btn-default" data-sort-direction="asc" type="button">
+                <span class="glyphicon glyphicon-sort-by-attributes"></span>
+              </button>
+              <button class="btn btn-default" data-sort-direction="desc" type="button">
+                <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+              </button>
+            </span>
+            <button type="button" class="btn btn-default" id="clear-search">
+              <span class="glyphicon glyphicon-remove"></span> Clear
+            </button>
+          </form>
+        </div>
+
         <ul id="items">
           <div id="videos-template">
             <li>
@@ -77,15 +82,5 @@
         <div class="clear"></div>
       </div>
     </div>
-
-    <div id="view-show">
-      <img src="img/blank.png" id="image">
-    </div>
-
-    <div id="page-back" class="paginator">◀</div>
-    <div id="page-next" class="paginator">▶</div>
-    <div id="page-back-10" class="paginator">◀◀</div>
-    <div id="page-next-10" class="paginator">▶▶</div>
-    <div id="page-home" class="paginator">❌</div>
   </body>
 </html>

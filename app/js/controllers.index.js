@@ -44,16 +44,6 @@ controllers.index = function(search, sort, sortDirection) {
   if(!sortDirection) sortDirection = "desc";
   if(sortDirection == "desc") videos = videos.reverse();
 
-  function perPageFromWindow() {
-    var windowWidth = $(window).width();
-    if(windowWidth < 1000) return 16;
-    else if(windowWidth > 1000 && windowWidth < 1500) return 21;
-    else if(windowWidth > 1500) return 25;
-  }
-
-  var perPage = perPageFromWindow();
-  var pages = utils.pages(videos, perPage);
-
   this.init = function() {
     console.log("starting index");
 
@@ -104,8 +94,7 @@ controllers.index = function(search, sort, sortDirection) {
     console.log("rendering");
     window.scrollTo(0, 0);
 
-    var videosPage = utils.paginate(videos, perPage);
-    addVideos(videosPage);
+    addVideos(_.first(videos, 500));
     lastControllerLocation = location.hash;
   }
 

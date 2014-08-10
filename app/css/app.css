@@ -12,77 +12,15 @@ p, ul { margin-bottom: 1.3em; }
 
 .clear { clear: both; }
 
-.paginator {
-  position: fixed;
-  width: 100px;
-  z-index: 10000;
+#wrapper {
+  position: relative;
+  top: 51px;
+}
 
-  opacity: 0;
-  font-size: 20px;
-  font-weight: bold;
+#navbar-content-target {
   text-align: center;
-  color: #ffffff;
-
-  /* Internet Explorer 10 */
-  display: -ms-flexbox;
-  -ms-flex-pack: center;
-  -ms-flex-align: center;
-
-  /* Firefox */
-  display: -moz-box;
-  -moz-box-pack: center;
-  -moz-box-align: center;
-
-  /* Safari, Opera, and Chrome */
-  display: -webkit-box;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
-
-  /* W3C */
-  display: box;
-  box-pack: center;
-  box-align: center;
 }
 
-.paginator:active {
-  background-color: #000000;
-  opacity: 0.4;
+.navbar-nav.navbar-right:last-child {
+  margin-right: 0 !important;
 }
-
-.paginator:hover {
-  cursor: pointer;
-}
-
-#page-back {
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-
-#page-next {
-  top: 0;
-  bottom: 0;
-  right: 0;
-}
-
-#page-back-10 {
-  bottom: 0;
-  left: 0;
-  height: 100px;
-  z-index: 10001;
-}
-
-#page-next-10 {
-  bottom: 0;
-  right: 0;
-  height: 100px;
-  z-index: 10001;
-}
-
-#page-home {
-  top: 0;
-  left: 0;
-  height: 100px;
-  z-index: 10001;
-}
-

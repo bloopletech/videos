@@ -20,43 +20,6 @@ utils.location = function(changes) {
   }
 }
 
-utils.page = function(index, max) {
-  if(arguments.length == 2) {
-    if(isNaN(index) || index < 1) index = 1;
-    if(index > max) index = max;
-    utils.location({ hash: index });
-  }
-  else if(arguments.length == 1) {
-    utils.location({ hash: index });
-  }
-  else {
-    var index = parseInt(utils.location().hash);
-    if(isNaN(index) || index < 1) index = 1;
-    return index;
-  }
-}
-
-utils.scrollDistanceFromBottom = function() {
-  return utils.pageHeight() - (window.pageYOffset + self.innerHeight);
-}
-
-utils.pageHeight = function() {
-  return $(".current-view").height();
-}
-
-utils.nearBottomOfPage = function() {
-  return utils.scrollDistanceFromBottom() < 250;
-}
-
-utils.pages = function(array, perPage) {
-  return Math.ceil(array.length / (perPage + 0.0));
-}
-
-utils.paginate = function(array, perPage) {
-  var page = utils.page();
-  return array.slice((page - 1) * perPage, page * perPage);
-}
-
 var router = function() {
   var _this = this;
 
@@ -77,6 +40,7 @@ var router = function() {
         currentRoute = route;
 
         if(currentController) {
+          $(".current-view .navbar-content").append($("#navbar-content-target").contents().detach());
           currentController.destroy();
           delete currentController;
         }
@@ -84,8 +48,9 @@ var router = function() {
         var controllerFunction = controllers[utils.location().controller];
         currentController = new (controllerFunction.bind.apply(controllerFunction, [null].concat(utils.location().params)));
         currentController.init();
+        $("#navbar-content-target").empty().append($(".current-view .navbar-content").contents().detach());
       }
-      
+
       currentController.render();
     }).trigger("hashchange");
   }
